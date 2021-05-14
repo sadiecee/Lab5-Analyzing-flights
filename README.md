@@ -84,60 +84,10 @@ Look back at the OpenFlights data page to see the fields available in the airpor
 
 ## Challenge 3 - Route distances
 Now that we have the lat/lon of each airport we can calculate the distance of each airline route.
-
-Calculating geographic distances is a bit tricky because the earth is a sphere (actually, it's an oblate spheroid). The distance we measure is the “great circle distance”. We’re not going to implement our own great circle distance function in Python here, instead you can download a Python file with a `geo_distance()` function (use the file `geo_distance.py` in this repo!). Feel free to have a peek at it if you like, but don’t worry about completely understanding it at this stage. There are two ways you can use this function:
-1. Place the file in the Notebook working directory and then import it as a Python module to use it (you can test it with the code below)
-
-```python
-# Code to import and check the geo_distance.py file to make sure it works.
-geo_distance.distance(-37.814,144.963,52.519,13.406) # Melbourne to Berlin in km!
-```
-If you’re not using a Jupyter Notebook, this code snippet doesn’t display anything. You’ll need to store the result of the distance function to a variable, then add a line with a `print()` statement to display the contents of the variable.
-
-2. As an alternative to the `import statement`, you can also copy and paste the contents of the `geo_distance.py` file into an Notebook cell. Run the cell to define the distance function, and then use it in subsequent cells!
-
-```python
-# Copy of geo_distance.py
-# Using the Haversine formula for geographic Great Circle Distance
-# As per https://en.wikipedia.org/wiki/Haversine_formula
-
-from math import cos,radians,sin,pow,asin,sqrt
-
-def distance(lat1, long1, lat2, long2):
-  radius = 6371 # radius of the earth in km, roughly https://en.wikipedia.org/wiki/Earth_radius
-  # Lat,long are in degrees but we need radians
-  lat1 = radians(lat1)
-  lat2 = radians(lat2)
-  long1 = radians(long1)
-  long2 = radians(long2)
-
-  dlat = lat2-lat1
-  dlon = long2-long1
-
-  a = pow(sin(dlat/2),2) + cos(lat1)*cos(lat2)*pow(sin(dlon/2),2)
-  distance = 2 * radius * asin(sqrt(a))
-
-  return distance
-```
-Once you have the `distance()` function working, can you write a program that reads all the airline routes from “routes.dat”, looks up the latitude and longitude of the source and destination airports, and builds a list of route distances?
-
-When looking at the list of fields in the OpenFlights data documentation, remember that we used the “Unique OpenFlights identifier” fields for each airport when we made the dictionaries of latitudes and longitudes, not the multi-letter airport codes.
-
-TIP: You might come across an error like “KeyError: \N” when you first run your program. This is another problem of ‘dirty data’, the “routes.dat” file contains some airports that aren’t listed in “airports.dat”. You can skip these routes by adding a test of the type `if airport in latitudes`. Don't forget that even if you've previously uploaded the "airports.dat" file to this notebook you'll also need to add the "routes.dat" file to Colab here.
+For coding challenge 3, I used the lat/long dictories to calculate the distance between airports. It took the lat and long dictionaries (that it turned into a departure airport lat/long and arrival airport lat/long for the distance function calculation) as an input and produced a list of distances an output. 
 
 ## Challenge 4 - Histogram
-Now we’re ready to create a histogram displaying the frequency of flights by distance. I suggest using `plt.hist()`, which can do most of the work. You can find the [documentation on it here](https://matplotlib.org/3.3.1/api/_as_gen/matplotlib.pyplot.hist.html) and you can always look around online for more info (here's a [useful StackOverflow thread](https://stackoverflow.com/questions/33203645/how-to-plot-a-histogram-using-matplotlib-in-python-with-a-list-of-data)). The first argument you supply will be the dataset (list of distances). The second argument (try starting with 100) is the number of bins to divide the histogram into. You can increase this number to see more distinct bars and a more detailed picture, or reduce it to see a coarser picture. Try setting it to some other values and see what happens to the histogram plot. The third argument, `facecolor`, sets the color of the graph, “r” for red. There are a lot of ways to specify colors in matplotlib, all of which are [explained in the documentation](https://matplotlib.org/api/colors_api.html). All of the arguments that can be used with `hist()` can be found in the [matplotlib documentation](https://matplotlib.org/api/pyplot_api.html#matplotlib.pyplot.hist).
+The goal of coding challenge 4 was to create a histogram of distances. It took the list of distances as an input and produces a histogram as an output. I used the matplotlab, scripy and numpy libraries in python. 
 
-For my solution, I imported two libraries using `as` to "alias" them. It is possible to modify the names of modules and their functions within Python by using the `as` keyword. There are times when you may want to change a name because you have already used the same name for something else in your program, another module you have imported also uses that name, or you may want to abbreviate a longer name that you are using a lot. The construction of this statement looks like this:
-```python
-import module_name as another_name
-```
-
-The code I used was:
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-```
-
-### Happy Coding!
-After completing this module, you will have taken some real world data and graphed it in an informative way! Granted, the results aren’t earth shattering but you’re well on your way to understanding the techniques to perform other data analysis, and chart other data.
+### Debugging
+I intially struggled with coding challenge three, especially with some of the syntax of running the program (both figuring out to convert the variables to floats and reminding myself on how to work with lists. I used https://stackoverflow.com/questions/31087111/typeerror-list-object-is-not-callable-in-python slack outflow page to figure it out. Additionally, in crafting my histogram in coding challenge 4, I read through this slack overflow forum https://stackoverflow.com/questions/33203645/how-to-plot-a-histogram-using-matplotlib-in-python-with-a-list-of-data. 
